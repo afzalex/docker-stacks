@@ -1,0 +1,84 @@
+version: '3.9'
+
+services:
+
+  # https://github.com/jenkinsci/docker/blob/master/README.md
+  jenkins:
+    image: jenkins/jenkins:lts 
+    container_name: jenkins
+    #restart: no
+    ports:
+      - 7002:8080
+      - 7003:5000
+    volumes:
+      - ./.data/jenkins:/var/jenkins_home 
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+
+  # gitlab:
+  #   image:  gitlab/gitlab-ce
+  #   ports:
+  #     - 7001:80
+  #   volumes:
+  #     - './.data/gitlab/config:/etc/gitlab'
+  #     - './.data/gitlab/logs:/var/log/gitlab'
+  #     - './.data/gitlab/data:/var/opt/gitlab'
+
+  gitea:
+    #image: gitea/gitea:1.13.6
+    build: ./gitea
+    restart: no
+    container_name: gitea
+    #environment:
+    #  - USER_UID=1000
+    #  - USER_GID=1000
+    restart: always
+    volumes:
+      - ./.data/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "7004:3000"
+      - "7005:22"
+
+  # gogs:
+  #   image: gogs/gogs
+  #   container_name: gogs
+  #   volumes:
+  #     - ./.data/gogs:/var/gogs
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - /etc/localtime:/etc/localtime:ro
+  #   ports:
+  #     - "7006:3000"
+  #     - "7007:22"
+  
+  # bind:
+  #   image: sameersbn/bind:9.16.1-20200524
+  #   container_name: bind
+  #   environment: 
+  #     - "WEBMIN_INIT_SSL_ENABLED=false"
+  #     - "WEBMIN_INIT_REDIRECT_PORT=7008"
+  #     - "WEBMIN_INIT_REFERERS=localhost"
+  #   volumes:
+  #     - ./.data/bind:/data
+  #   ports:
+  #     - "7008:10000"
+  #     - "7009:53"
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    volumes:
+      - "./.data/minio:/data"
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: Password#123
+    command: server /data
+    # command: server http://minio{1...4}/data{1...2}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    ports:
+      - "7007:9000"
