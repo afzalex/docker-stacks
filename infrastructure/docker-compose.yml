@@ -4,35 +4,30 @@ services:
 
   # https://github.com/jenkinsci/docker/blob/master/README.md
   jenkins:
-    image: jenkins/jenkins:lts 
+    # image: jenkins/jenkins:lts 
+    build: ./jenkins
+    user: root
+    privileged: true
     container_name: jenkins
     #restart: no
     ports:
       - 7002:8080
       - 7003:5000
     volumes:
-      - ./.data/jenkins:/var/jenkins_home 
+      - ./.data/jenkins:/var/jenkins_home
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
-
-  # gitlab:
-  #   image:  gitlab/gitlab-ce
-  #   ports:
-  #     - 7001:80
-  #   volumes:
-  #     - './.data/gitlab/config:/etc/gitlab'
-  #     - './.data/gitlab/logs:/var/log/gitlab'
-  #     - './.data/gitlab/data:/var/opt/gitlab'
+      - "/var/run/docker.sock:/var/run/docker.sock"
 
   gitea:
     #image: gitea/gitea:1.13.6
     build: ./gitea
-    restart: no
+    restart: "no"
+    #restart: always
     container_name: gitea
     #environment:
     #  - USER_UID=1000
     #  - USER_GID=1000
-    restart: always
     volumes:
       - ./.data/gitea:/data
       - /etc/timezone:/etc/timezone:ro
@@ -40,30 +35,6 @@ services:
     ports:
       - "7004:3000"
       - "7005:22"
-
-  # gogs:
-  #   image: gogs/gogs
-  #   container_name: gogs
-  #   volumes:
-  #     - ./.data/gogs:/var/gogs
-  #     - /etc/timezone:/etc/timezone:ro
-  #     - /etc/localtime:/etc/localtime:ro
-  #   ports:
-  #     - "7006:3000"
-  #     - "7007:22"
-  
-  # bind:
-  #   image: sameersbn/bind:9.16.1-20200524
-  #   container_name: bind
-  #   environment: 
-  #     - "WEBMIN_INIT_SSL_ENABLED=false"
-  #     - "WEBMIN_INIT_REDIRECT_PORT=7008"
-  #     - "WEBMIN_INIT_REFERERS=localhost"
-  #   volumes:
-  #     - ./.data/bind:/data
-  #   ports:
-  #     - "7008:10000"
-  #     - "7009:53"
 
   minio:
     image: minio/minio
@@ -82,3 +53,39 @@ services:
       retries: 3
     ports:
       - "7007:9000"
+
+
+  # gogs:
+  #   image: gogs/gogs
+  #   container_name: gogs
+  #   volumes:
+  #     - ./.data/gogs:/var/gogs
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - /etc/localtime:/etc/localtime:ro
+  #   ports:
+  #     - "7006:3000"
+  #     - "7007:22"
+  
+
+  # gitlab:
+  #   image:  gitlab/gitlab-ce
+  #   ports:
+  #     - 7001:80
+  #   volumes:
+  #     - './.data/gitlab/config:/etc/gitlab'
+  #     - './.data/gitlab/logs:/var/log/gitlab'
+  #     - './.data/gitlab/data:/var/opt/gitlab'
+
+
+  # bind:
+  #   image: sameersbn/bind:9.16.1-20200524
+  #   container_name: bind
+  #   environment: 
+  #     - "WEBMIN_INIT_SSL_ENABLED=false"
+  #     - "WEBMIN_INIT_REDIRECT_PORT=7008"
+  #     - "WEBMIN_INIT_REFERERS=localhost"
+  #   volumes:
+  #     - ./.data/bind:/data
+  #   ports:
+  #     - "7008:10000"
+  #     - "7009:53"

@@ -14,9 +14,10 @@ services:
       - 3306:3306
     volumes:
       - ./.data/mysql:/var/lib/mysql
+      - ~:/host
 
   adminer:
     image: adminer
-    restart: always
+    #restart: always
     ports:
       - 8980:8080
