@@ -9,7 +9,9 @@ services:
     user: root
     privileged: true
     container_name: jenkins
-    #restart: no
+    restart: "no"
+    environment: 
+      - "Duser.timezone=Asia/Calcutta"
     ports:
       - 7002:8080
       - 7003:5000
@@ -30,11 +32,18 @@ services:
     #  - USER_GID=1000
     volumes:
       - ./.data/gitea:/data
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
     ports:
       - "7004:3000"
       - "7005:22"
+
+  registry:
+    image: registry:latest
+    restart: "no"
+    container_name: registry
+    ports:
+      - "7010:5000"
 
   minio:
     image: minio/minio
@@ -89,3 +98,9 @@ services:
   #   ports:
   #     - "7008:10000"
   #     - "7009:53"
+
+
+
+# networks:
+#   default:
+#     driver: network_infrastructure
