@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: jupyter/scipy-notebook
+    container_name: jupyter
+    #restart: always
+    environment:
+      JUPYTER_ENABLE_LAB: yes
+    ports: 
+      - 8888:8888 
+    volumes:
+      - ./.data:/home/
+
+
