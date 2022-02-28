@@ -12,5 +12,6 @@ services:
       - 8888:8888 
     volumes:
       - ./.data:/home/
+      #- /Volumes/afzalex/source/docker-stacks/jupyter/.data/jovyan:/home/jovyan/macair/
 
 

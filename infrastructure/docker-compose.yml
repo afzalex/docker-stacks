@@ -63,6 +63,37 @@ services:
     ports:
       - "7007:9000"
 
+  zookeeper:
+    image: zookeeper
+    restart: "no"
+    container_name: zookeeper
+    hostname: zookeeper
+    ports:
+      - 7011:2181
+    environment:
+      ZOO_MY_ID: 1
+      # ZOO_SERVERS: server.1=zookeeper:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+
+  zoonavigator:
+    image: elkozmon/zoonavigator:latest
+    restart: "no"
+    hostname: zoonavigator
+    container_name: zoonavigator
+    ports:
+      - 7012:9000
+    environment:
+      - HTTP_PORT=9000
+
+
+  kafka:
+    build: ./kafka
+    restart: "no"
+    container_name: kafka
+    hostname: kafka
+    volumes:
+      - ./kafka/kafka_2.13-3.1.0:/kafka
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
 
   # gogs:
   #   image: gogs/gogs
@@ -104,3 +135,4 @@ services:
 # networks:
 #   default:
 #     driver: network_infrastructure
+
