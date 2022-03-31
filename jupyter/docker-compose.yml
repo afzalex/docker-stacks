@@ -8,8 +8,12 @@ services:
     #restart: always
     environment:
       JUPYTER_ENABLE_LAB: yes
+      GRANT_SUDO: yes
+    user: root
     ports: 
-      - 8888:8888 
+      - 7801:8888
+      - 7802:5000
+      - 7803:8080
     volumes:
       - ./.data:/home/
       #- /Volumes/afzalex/source/docker-stacks/jupyter/.data/jovyan:/home/jovyan/macair/

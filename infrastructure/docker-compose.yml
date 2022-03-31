@@ -120,6 +120,17 @@ services:
     profiles:
       - supporter
       - full
+
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: sonarqube
+    ports:
+      - 7015:3600
+      - 7016:9000
+    environment:
+      - KAFKA_BROKERCONNECT=kafka:9093
+    profiles:
+      - full
     
   # gogs:
   #   image: gogs/gogs

@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  db:
+    image: ubuntu:latest
+    container_name: ubuntu
+    command: tail -f /dev/null
+    #restart: always
+    ports: 
+      - 3000:3000
+    volumes:
+      - ./.data:/root
+      - ./config:/root/config
