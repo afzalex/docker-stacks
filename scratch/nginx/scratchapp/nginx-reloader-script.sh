@@ -1,7 +1,8 @@
 #!/bin/sh
 
 FILE="/root/default.conf"
-COPYLOC="/etc/nginx/http.d/default.conf"
+#COPYLOC="/etc/nginx/http.d/default.conf"
+COPYLOC="/etc/nginx/conf.d/default.conf"
 
 cp -f $FILE $COPYLOC
 LT=`stat -c %Z $FILE`; 

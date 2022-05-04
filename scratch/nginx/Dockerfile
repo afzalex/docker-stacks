@@ -14,6 +14,7 @@
 FROM openresty/openresty:alpine-fat
 
 RUN mkdir /var/log/nginx
+RUN touch /var/log/nginx/error.log
 
 RUN apk add --no-cache openssl-dev
 RUN apk add --no-cache git
