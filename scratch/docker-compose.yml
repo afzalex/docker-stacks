@@ -31,5 +31,5 @@ services:
     volumes:
       - ./.data/root:/root
       - ./testapp/app:/app
-#    ports:
-#      - 7221:80
+    ports:
+      - "7221:80"

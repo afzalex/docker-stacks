@@ -1,2 +1,5 @@
 .data
 .DS_Store
+.data.old
+.idea
+__pycache__
