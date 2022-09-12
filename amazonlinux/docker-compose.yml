@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  db:
+    build: .
+    #image: amazonlinux:2022
+    container_name: ec2
+    # command: tail -f /dev/null
+    #restart: always
+    ports: 
+      - 8904:3000
+      - 8905:8080
+      - 8906:8000
+      - 8907:22
+    volumes:
+      # - ./.data:/root
+      - ./config:/root/config
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /Users/mafzal/source:/app/source
