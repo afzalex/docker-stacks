@@ -12,8 +12,13 @@ services:
       - 8905:8080
       - 8906:8000
       - 8907:22
+      - 8908:8888
     volumes:
-      # - ./.data:/root
-      - ./config:/root/config
+      # - ./.data:/root/python3.7.3-browser-template-1.0
+      # - ./config:/home/ciuser/config
+      # - ./.data:/home/ciuser/data
+      - /Users/mafzal/source/docker-stacks/amazonlinux/.data:/home/ciuser/data
+      - /Users/mafzal/source/docker-stacks/amazonlinux/config:/home/ciuser/config
       - /var/run/docker.sock:/var/run/docker.sock
       - /Users/mafzal/source:/app/source
+

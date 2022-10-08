@@ -1,0 +1,10 @@
+#!/bin/bash
+
+isHostKeyInstalled=$(docker exec ec2 bash -c 'if [[ -f FLAG_HOST_AUTHKEY_INSTALLED ]]; then echo True; fi')
+
+if [[ "${isHostKeyInstalled}" != "True" ]]; then 
+    echo "Keys not installed on ec2"
+    ./install-host-key.sh
+fi
+
+ssh -p 8907 ciuser@host.docker.internal
