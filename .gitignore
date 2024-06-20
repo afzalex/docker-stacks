@@ -3,3 +3,5 @@
 .data.old
 .idea
 __pycache__
+
+.env

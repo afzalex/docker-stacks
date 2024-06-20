@@ -28,15 +28,5 @@ else
     echo "Network $NETWORK_NAME already exists"
 fi
 
-PORT_OPTIONS=""
-for port_mapping in $PORT_MAPPINGS; do
-  PORT_OPTIONS="$PORT_OPTIONS -p $port_mapping"
-done
 
-docker run --name ${IMAGE_NAME} -it \
-    --network "${NETWORK_NAME}" \
-    --env-file "public.env" \
-    --env-file <(env | grep "$ENVRIONMENT_PREFIX") \
-    $PORT_OPTIONS --rm \
-    ${CONTAINER_NAME} "$@"
 
