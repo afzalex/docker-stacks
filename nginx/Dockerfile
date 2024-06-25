@@ -1,11 +1,8 @@
 # Use the official Nginx image as a base
-FROM nginx:latest
+FROM nginx:1.27.0
 
-RUN apt update && \
-    apt install -y luarocks && \
-    luarocks install lua-resty-openidc
-
-COPY conf.d /etc/nginx/conf.d
+COPY ./.build/conf.d /etc/nginx/conf.d
+COPY ./.build/locations /etc/nginx/locations
 COPY ssl/fzmacair /etc/nginx/ssl
 
 # Set the working directory inside the container
