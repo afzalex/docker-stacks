@@ -11,4 +11,4 @@ docker run --name ${IMAGE_NAME} -it \
     --env-file ".env" \
     -v ./.data/:/opt/keycloak/data \
     -p ${PORT_MAPPING}:8080 --rm -d \
-    ${CONTAINER_NAME} start-dev
+    ${CONTAINER_NAME} start-dev --proxy-headers forwarded --http-relative-path=/auth --hostname="https://fzmacair.local/auth"
