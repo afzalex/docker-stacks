@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Check if required arguments are provided
+if [ $# -lt 2 ]; then
+    echo "Usage: docker-stack <service-name> <action>"
+    echo "Example: docker-stack jupyter start"
+    exit 1
+fi
+
+# Get the service name and action from arguments
+SERVICE_NAME=$1
+ACTION=$2
+
+# Check if the service directory exists
+if [ ! -d "$SERVICE_NAME" ]; then
+    echo "Error: Service directory '$SERVICE_NAME' not found"
+    exit 1
+fi
+
+# Check if the action script exists
+ACTION_SCRIPT="$SERVICE_NAME/${ACTION}.sh"
+if [ ! -f "$ACTION_SCRIPT" ]; then
+    echo "Error: Action script '${ACTION}.sh' not found in '$SERVICE_NAME' directory"
+    exit 1
+fi
+
+# Execute the action script
+echo "Executing $ACTION_SCRIPT..."
+bash "$ACTION_SCRIPT" 
