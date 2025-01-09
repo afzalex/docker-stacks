@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Get the absolute path of the script's directory
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Check if required arguments are provided
 if [ $# -lt 2 ]; then
     echo "Usage: docker-stack <service-name> <action>"
@@ -11,18 +14,36 @@ fi
 SERVICE_NAME=$1
 ACTION=$2
 
+# Use absolute paths for service directory
+SERVICE_DIR="$SCRIPT_DIR/$SERVICE_NAME"
+
 # Check if the service directory exists
-if [ ! -d "$SERVICE_NAME" ]; then
-    echo "Error: Service directory '$SERVICE_NAME' not found"
+if [ ! -d "$SERVICE_DIR" ]; then
+    echo "Error: Service directory '$SERVICE_NAME' not found in $SCRIPT_DIR"
     exit 1
 fi
 
 # Check if the action script exists
-ACTION_SCRIPT="$SERVICE_NAME/${ACTION}.sh"
+ACTION_SCRIPT="$SERVICE_DIR/${ACTION}.sh"
 if [ ! -f "$ACTION_SCRIPT" ]; then
-    echo "Error: Action script '${ACTION}.sh' not found in '$SERVICE_NAME' directory"
+    echo "Error: Action script '${ACTION}.sh' not found in '$SERVICE_DIR'"
     exit 1
 fi
+
+# Handle Windows paths in Git Bash
+if [[ "$OSTYPE" == "msys" ]]; then
+    # Convert Windows path to Docker-compatible path
+    export HOST_WORKDIR="$(pwd -W)"
+    # Disable MSYS path conversion
+    export MSYS_NO_PATHCONV=1
+else
+    export HOST_WORKDIR="$(pwd)"
+fi
+
+echo "Host working directory: $HOST_WORKDIR"
+
+# Change to the service directory before executing the script
+cd "$SERVICE_DIR"
 
 # Execute the action script
 echo "Executing $ACTION_SCRIPT..."

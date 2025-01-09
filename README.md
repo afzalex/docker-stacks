@@ -2,6 +2,7 @@
 
 A simple command-line tool to manage multiple Docker stack deployments. This repository contains various Docker stack configurations organized in separate directories, with each directory containing its own management scripts.
 
+
 ## Overview
 
 The repository is organized with the following structure:
