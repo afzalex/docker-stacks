@@ -29,7 +29,7 @@ if [ -f '.env' ]; then
     rm -f "${environmentSetupFile}"
 fi
 
-docker rm -f "${IMAGE_NAME}" || true
+docker image rm -f "${IMAGE_NAME}" || true
 docker build -t "${IMAGE_NAME}" .
 
 # Check if the network exists, if not, create it
