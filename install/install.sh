@@ -3,36 +3,25 @@
 # Get the absolute path of the repository
 REPO_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
-# Create symbolic link to docker-stack in /usr/local/bin
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # MacOS
-    echo "Installing for MacOS..."
-    sudo ln -sf "$REPO_PATH/docker-stack" /usr/local/bin/docker-stack
-    
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    # Linux
-    echo "Installing for Linux..."
-    sudo ln -sf "$REPO_PATH/docker-stack" /usr/local/bin/docker-stack
+# Determine which rc file to use based on OS and shell
+if [ -f "$HOME/.zshrc" ]; then
+    RC_FILE="$HOME/.zshrc"
+elif [ -f "$HOME/.bashrc" ]; then
+    RC_FILE="$HOME/.bashrc"
+else
+    RC_FILE="$HOME/.profile"
+fi
 
-elif [[ "$OSTYPE" == "msys" ]]; then
-    # Git Bash for Windows
-    echo "Installing for Git Bash (Windows)..."
-    
-    # Add repository path to .bashrc if not already present
-    BASHRC_PATH="$HOME/.bashrc"
-    EXPORT_PATH="export PATH=\"$REPO_PATH:\$PATH\""
-    
-    if ! grep -q "export PATH=\"$REPO_PATH:" "$BASHRC_PATH" 2>/dev/null; then
-        echo "" >> "$BASHRC_PATH"
-        echo "# Added by docker-stack installer" >> "$BASHRC_PATH"
-        echo "$EXPORT_PATH" >> "$BASHRC_PATH"
-        echo "Docker stack path added to .bashrc"
-    else
-        echo "Docker stack path already exists in .bashrc"
-    fi
-    
-    # Source .bashrc to make changes take effect in current session
-    source "$BASHRC_PATH"
+# Add repository path to rc file if not already present
+EXPORT_PATH="export PATH=\"$REPO_PATH:\$PATH\""
+
+if ! grep -q "export PATH=\"$REPO_PATH:" "$RC_FILE" 2>/dev/null; then
+    echo "" >> "$RC_FILE"
+    echo "# Added by docker-stack installer" >> "$RC_FILE"
+    echo "$EXPORT_PATH" >> "$RC_FILE"
+    echo "Docker stack path added to $RC_FILE"
+else
+    echo "Docker stack path already exists in $RC_FILE"
 fi
 
 # Make docker-stack executable
@@ -40,6 +29,4 @@ chmod +x "$REPO_PATH/docker-stack"
 
 echo "Installation completed!"
 echo "You can now use 'docker-stack' command from anywhere"
-if [[ "$OSTYPE" == "msys" ]]; then
-    echo "Note: You may need to restart your Git Bash terminal or run 'source ~/.bashrc' for changes to take effect"
-fi 
+echo "Note: You may need to restart your terminal or run 'source $RC_FILE' for changes to take effect" 
