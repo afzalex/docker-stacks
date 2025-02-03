@@ -2,7 +2,7 @@
 
 export ENVRIONMENT_PREFIX="FZKEYCLOAK"
 
-source ../run-preprocess.sh.tpl
+source ../run-preprocess.tpl.sh
 
 
 docker run --name ${IMAGE_NAME} -it \

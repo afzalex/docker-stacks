@@ -47,4 +47,4 @@ cd "$SERVICE_DIR"
 
 # Execute the action script
 echo "Executing $ACTION_SCRIPT..."
-bash "$ACTION_SCRIPT" 
+bash "$ACTION_SCRIPT" "${@:3}"

@@ -5,6 +5,7 @@ set -e
 touch public.env
 touch .env
 
+
 publicEnvironmentSetupFile=$(mktemp)
 if [ -f 'public.env' ]; then
     cat 'public.env' | while read line; do

@@ -1,5 +1,5 @@
 #!/bin/bash
-source ../run-preprocess.sh.tpl
+source ../run-preprocess.tpl.sh
 
 docker run --name ${IMAGE_NAME} -it \
     --network "${NETWORK_NAME}" \

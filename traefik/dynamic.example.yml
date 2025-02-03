@@ -1,0 +1,48 @@
+http:
+  routers:
+    filebrowser:
+      rule: "PathPrefix(`/browser`) || Path(`/browser`)"
+      entryPoints:
+        - "web"
+        - "websecure"
+      service: "filebrowser"
+      # middlewares:
+      #   - "redirect-to-https"
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  services:
+    filebrowser:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8888"
+          
+# http routing section
+# http:
+#   routers:
+#     # Define a connection between requests and services
+#     to-whoami:
+#       rule: "Host(`example.com`) && PathPrefix(`/whoami/`)"
+#        # If the rule matches, applies the middleware
+#       middlewares:
+#       - test-user
+#       # If the rule matches, forward to the whoami service (declared below)
+#       service: whoami
+
+#   middlewares:
+#     # Define an authentication mechanism
+#     test-user:
+#       basicAuth:
+#         users:
+#         - test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/
+
+#   services:
+#     # Define how to reach an existing service on our infrastructure
+#     whoami:
+#       loadBalancer:
+#         servers:
+#         - url: http://private/whoami-service
+

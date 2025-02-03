@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../run-preprocess.sh.tpl
+source ../run-preprocess.tpl.sh
 
 # Use PORT_MAPPING from environment file, default to 8888 if not set
 PORT_MAPPING=${PORT_MAPPING:-8888}
