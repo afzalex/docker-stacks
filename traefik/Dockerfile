@@ -1,5 +1,3 @@
-FROM traefik:v2.10.4
-
-RUN apk add curl
+FROM traefik:v3.3.3
 
 EXPOSE 80 443

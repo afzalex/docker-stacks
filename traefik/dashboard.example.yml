@@ -1,0 +1,21 @@
+http:
+  routers:
+    api:
+      rule: Host(`fzryzen.local`)
+      service: api@internal
+      # tls: {}
+      middlewares:
+        - dashboard-auth
+        # Uncomment to enable HTTPS redirection
+        # - redirect-to-https
+
+  middlewares:
+    # Uncomment to enable HTTPS redirection
+    # redirect-to-https:
+    #   redirectScheme:
+    #     scheme: https
+    #     permanent: true
+    dashboard-auth:
+      basicAuth:
+        users:
+          - "admin:$2y$05$CKPK0fMm4dmx3K0GQTwvn.Tq8pHb/Rv28SFXH1xKLB8/6OD1EH3W2"  # User: admin, Password: Password@123

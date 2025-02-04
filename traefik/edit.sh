@@ -8,10 +8,6 @@ if ls "${HOST_WORKDIR}"/* >/dev/null 2>&1 && find "${HOST_WORKDIR}" -type f ! -n
     TRAEFIK_DYNAMIC_CONFIGS_DIR="./.data/dynamic"
     # Create dynamic directory if it doesn't exist
     mkdir -p "${TRAEFIK_DYNAMIC_CONFIGS_DIR}"
-    # Copy dynamic.example.yml to dynamic config directory if it doesn't exist
-    if [ ! -f "${TRAEFIK_DYNAMIC_CONFIGS_DIR}/dynamic.yml" ]; then
-        cp dynamic.example.yml "${TRAEFIK_DYNAMIC_CONFIGS_DIR}/dynamic.yml"
-    fi
 else
     TRAEFIK_DYNAMIC_CONFIGS_DIR="${HOST_WORKDIR}"
 fi
@@ -24,13 +20,20 @@ fi
 
 if [ "$1" = "traefik.yml" ]; then
     TRAEFIK_DYNAMIC_CONFIG_FILE="./.data/traefik.yml"
+elif [ "$1" = "ssl_certificates.yml" ]; then
+    TRAEFIK_DYNAMIC_CONFIG_FILE="${TRAEFIK_DYNAMIC_CONFIGS_DIR}/$1"
+    if [ ! -f "${TRAEFIK_DYNAMIC_CONFIG_FILE}" ]; then
+        cp ssl_certificates.example.yml "${TRAEFIK_DYNAMIC_CONFIG_FILE}"
+    fi
 else
     TRAEFIK_DYNAMIC_CONFIG_FILE="${TRAEFIK_DYNAMIC_CONFIGS_DIR}/$1"
 fi
 
+
+
 # Create config file if it doesn't exist
 if [ ! -f "${TRAEFIK_DYNAMIC_CONFIG_FILE}" ]; then
-    cp dynamic.example.yml "${TRAEFIK_DYNAMIC_CONFIG_FILE}"
+    cp sample.example.yml "${TRAEFIK_DYNAMIC_CONFIG_FILE}"
 fi
 
 # Check for available editors in order of preference

@@ -11,9 +11,9 @@ if ls "${HOST_WORKDIR}"/* >/dev/null 2>&1 && find "${HOST_WORKDIR}" -type f ! -n
     TRAEFIK_DYNAMIC_CONFIGS_DIR="./.data/dynamic"
     # Create dynamic directory if it doesn't exist
     mkdir -p "${TRAEFIK_DYNAMIC_CONFIGS_DIR}"
-    # Copy dynamic.example.yml to dynamic config directory if it doesn't exist
-    if [ ! -f "${TRAEFIK_DYNAMIC_CONFIGS_DIR}/dynamic.yml" ] && ! ls "${TRAEFIK_DYNAMIC_CONFIGS_DIR}"/*.yml >/dev/null 2>&1; then
-        cp dynamic.example.yml "${TRAEFIK_DYNAMIC_CONFIGS_DIR}/dynamic.yml"
+    # Copy dashboard.example.yml to dynamic config directory if it doesn't exist
+    if ! ls "${TRAEFIK_DYNAMIC_CONFIGS_DIR}"/*.yml >/dev/null 2>&1; then
+        cp dashboard.example.yml "${TRAEFIK_DYNAMIC_CONFIGS_DIR}/dashboard.yml"
     fi
 else
     TRAEFIK_DYNAMIC_CONFIGS_DIR="${HOST_WORKDIR}"
@@ -42,7 +42,8 @@ docker run --name ${CONTAINER_NAME} -it \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v ./.data/traefik.yml:/etc/traefik/traefik.yml \
     -v "${TRAEFIK_DYNAMIC_CONFIGS_DIR}":/etc/traefik/dynamic \
-    ${CONTAINER_NAME}
+    ${CONTAINER_NAME} \
+    --api.basePath=/dashboard
     
 
 
