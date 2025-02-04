@@ -29,14 +29,19 @@ fi
 # Create certs directory if it doesn't exist
 mkdir -p ./.data/certs
 
+# Remove existing container if running
+if [[ " $@ " =~ " --force " ]]; then
+    echo "Removing existing ${CONTAINER_NAME} container..."
+    docker rm -f ${CONTAINER_NAME} 2>/dev/null || true
+fi
+
 docker run --name ${CONTAINER_NAME} -it \
     --network "${NETWORK_NAME}" \
     --env-file "public.env" \
     --env-file ".env" \
     -p ${PORT_MAPPING}:80 \
     -p ${PORT_MAPPING_SECURE}:443 \
-    -p ${PORT_MAPPING_DASHBOARD}:8080 \
-    --rm \
+    $(if [[ " $@ " =~ " --persist " ]]; then echo "-d"; else echo "--rm"; fi) \
     --add-host=host.docker.internal:host-gateway \
     -v ./.data/certs:/etc/traefik/certs \
     -v /var/run/docker.sock:/var/run/docker.sock \
