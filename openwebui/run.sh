@@ -22,15 +22,6 @@ else
 fi
 
 
-echo  docker run --name ${CONTAINER_NAME} -it \
-    --network "${NETWORK_NAME}" \
-    --env-file "public.env" \
-    --env-file ".env" \
-    $(if [[ " $@ " =~ " --persist " ]]; then echo "-d"; else echo "--rm"; fi) \
-    -p ${PORT_MAPPING}:8080 ${DOCKER_GPU_FLAGS} \
-    -v ./.data/open-webui:/app/backend/data \
-    ${CONTAINER_NAME} \
-
 docker run --name ${CONTAINER_NAME} -it \
     --network "${NETWORK_NAME}" \
     --env-file "public.env" \
