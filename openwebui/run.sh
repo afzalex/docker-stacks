@@ -21,14 +21,13 @@ else
     DOCKER_GPU_FLAGS=""
 fi
 
-
 docker run --name ${CONTAINER_NAME} -it \
     --network "${NETWORK_NAME}" \
     --env-file "public.env" \
     --env-file ".env" \
-    $(if [[ " $@ " =~ " --persist " ]]; then echo "-d"; else echo "--rm"; fi) \
+    $(if [[ " $@ " =~ " --persist " ]]; then echo "--restart unless-stopped -d"; else echo "--rm"; fi) \
     --add-host=host.docker.internal:host-gateway \
-    -p ${PORT_MAPPING}:8080 ${DOCKER_GPU_FLAGS} \
+    $(if [ ! -z "${PORT_MAPPING}" ]; then echo "-p ${PORT_MAPPING}:8080"; fi) ${DOCKER_GPU_FLAGS} \
     -v ./.data/open-webui:/app/backend/data \
     ${CONTAINER_NAME} \
     
