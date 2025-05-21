@@ -5,8 +5,8 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Check if required arguments are provided
 if [ $# -lt 2 ]; then
-    echo "Usage: docker-stack <service-name> <action>"
-    echo "Example: docker-stack jupyter run"
+    echo ">> Usage: docker-stack <service-name> <action>"
+    echo ">> Example: docker-stack jupyter run"
     exit 1
 fi
 
@@ -19,14 +19,7 @@ SERVICE_DIR="$SCRIPT_DIR/$SERVICE_NAME"
 
 # Check if the service directory exists
 if [ ! -d "$SERVICE_DIR" ]; then
-    echo "Error: Service directory '$SERVICE_NAME' not found in $SCRIPT_DIR"
-    exit 1
-fi
-
-# Check if the action script exists
-ACTION_SCRIPT="$SERVICE_DIR/${ACTION}.sh"
-if [ ! -f "$ACTION_SCRIPT" ]; then
-    echo "Error: Action script '${ACTION}.sh' not found in '$SERVICE_DIR'"
+    echo ">> Error: Service directory '$SERVICE_NAME' not found in $SCRIPT_DIR"
     exit 1
 fi
 
@@ -40,11 +33,16 @@ else
     export HOST_WORKDIR="$(pwd)"
 fi
 
-echo "Host working directory: $HOST_WORKDIR"
+echo ">> Host working directory: $HOST_WORKDIR"
 
-# Change to the service directory before executing the script
-cd "$SERVICE_DIR"
-
-# Execute the action script
-echo "Executing $ACTION_SCRIPT..."
-bash "$ACTION_SCRIPT" "${@:3}"
+# Check if the action script exists in service directory
+if [ -f "$SERVICE_DIR/${ACTION}.sh" ]; then
+    echo ">> Executing $SERVICE_DIR/${ACTION}.sh..."
+    (cd "$SERVICE_DIR" && bash "${ACTION}.sh" "${@:3}")
+elif [ -f "$SCRIPT_DIR/common/${ACTION}.sh" ]; then
+    echo ">> Executing $SCRIPT_DIR/common/${ACTION}.sh"
+    (cd "$SERVICE_DIR" && bash "$SCRIPT_DIR/common/${ACTION}.sh" "${@:3}")
+else
+    echo ">> Error: Action script '${ACTION}.sh' not found"
+    exit 1
+fi
