@@ -6,7 +6,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Check if required arguments are provided
 if [ $# -lt 2 ]; then
     echo "Usage: docker-stack <service-name> <action>"
-    echo "Example: docker-stack jupyter start"
+    echo "Example: docker-stack jupyter run"
     exit 1
 fi
 

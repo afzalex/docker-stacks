@@ -2,9 +2,14 @@
 
 set -e
 
+# Check if .env.example exists but .env doesn't, then copy it
+if [ -f '.env.example' ] && [ ! -f '.env' ]; then
+    echo ">> .env not found, generating from .env.example"
+    cp .env.example .env
+fi
+
 touch public.env
 touch .env
-
 
 publicEnvironmentSetupFile=$(mktemp)
 if [ -f 'public.env' ]; then
@@ -35,10 +40,10 @@ docker build -t "${IMAGE_NAME}" .
 
 # Check if the network exists, if not, create it
 if ! docker network inspect "$NETWORK_NAME" >/dev/null 2>&1; then
-    echo "Creating network: $NETWORK_NAME"
+    echo ">> Creating network: $NETWORK_NAME"
     docker network create "$NETWORK_NAME"
 else
-    echo "Network $NETWORK_NAME already exists"
+    echo ">> Network $NETWORK_NAME already exists"
 fi
 
 
