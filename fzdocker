@@ -5,8 +5,16 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Check if required arguments are provided
 if [ $# -lt 2 ]; then
-    echo ">> Usage: docker-stack <service-name> <action>"
-    echo ">> Example: docker-stack jupyter run"
+    echo ">> Usage: fzdocker <service-name> <action>"
+    echo ">> Example: fzdocker jupyter run"
+
+    found=()
+    for line in *; do
+        if [ -f "$line/run.sh" ]; then
+            found+=("$line")
+        fi
+    done
+    printf "%s\n" "${found[@]}" | column
     exit 1
 fi
 

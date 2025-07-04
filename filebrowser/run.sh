@@ -14,13 +14,17 @@ if [[ " $@ " =~ " --force " ]]; then
 fi
 
 # Check if a directory was provided and if it exists
-if [ ! -z "$1" ] && [ ! -d "$1" ]; then
+if [[ "$1" != --* ]] && [[ -n "$1" ]] && [[ ! -d "$1" ]]; then
     echo "Error: Directory '$1' does not exist"
     exit 1
+elif [[ -d "$1" ]]; then
+    # Get the srv directory path - default to .data/srv if not specified
+    SRV_DIR=$(realpath ${1:-./.data/srv})
+else
+    mkdir -p ./.data/srv
+    SRV_DIR=$(realpath ./.data/srv)
 fi
 
-# Get the srv directory path - default to .data/srv if not specified
-SRV_DIR=$(realpath ${1:-./.data/srv})
 
 # Use exec to ensure signals are properly passed to docker
 exec docker run --name ${CONTAINER_NAME} -it \
