@@ -1,0 +1,14 @@
+# index.yml
+http:
+  routers:
+    index:
+      rule: Host(`fzryzen.local`) && Path(`/`)
+      service: index-service
+      middlewares:
+        - common-redirect-to-https
+
+  services:
+    index-service:
+      loadBalancer:
+        servers:
+          - url: "http://fzpublic"
