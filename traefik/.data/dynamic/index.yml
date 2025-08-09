@@ -3,12 +3,6 @@ http:
   routers:
     index:
       rule: Host(`fzryzen.local`) && Path(`/`)
-      service: index-service
+      service: fzpublic@docker
       middlewares:
         - common-redirect-to-https
-
-  services:
-    index-service:
-      loadBalancer:
-        servers:
-          - url: "http://fzpublic"

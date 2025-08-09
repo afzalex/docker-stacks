@@ -8,7 +8,7 @@ A simple command-line tool to manage multiple Docker stack deployments. This rep
 The repository is organized with the following structure:
 
 ```
-docker-stacks/
+fzdocker/
 ├── jupyter/
 │ ├── start.sh
 │ ├── stop.sh
@@ -20,7 +20,7 @@ docker-stacks/
 ├── install/
 │ ├── install.sh # For Linux/MacOS
 │ └── install.bat # For Windows
-└── docker-stack # Main command-line tool
+└── fzdocker # Main command-line tool
 ```
 
 
@@ -32,8 +32,8 @@ Each service directory contains its own Docker stack configuration and managemen
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/afzalex/docker-stacks.git
-   cd docker-stacks
+   git clone https://github.com/afzalex/fzdocker.git
+   cd fzdocker
    ```
 
 2. Run the installation script:
@@ -45,8 +45,8 @@ Each service directory contains its own Docker stack configuration and managemen
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/afzalex/docker-stacks.git
-   cd docker-stacks
+   git clone https://github.com/afzalex/fzdocker.git
+   cd fzdocker
    ```
 
 2. Run the installation script:
@@ -58,22 +58,22 @@ Each service directory contains its own Docker stack configuration and managemen
 
 ## Usage
 
-After installation, you can use the `docker-stack` command from anywhere. The basic syntax is:
+After installation, you can use the `fzdocker` command from anywhere. The basic syntax is:
 
 ``` bash
 bash
-docker-stack <service-name> <action>
+fzdocker <service-name> <action>
 ```
 
 
 #### Start the Jupyter stack
 ``` bash
-docker-stack jupyter start
+fzdocker jupyter start
 ```
 
 #### Stop the MongoDB stack
 ``` bash
-docker-stack mongo stop
+fzdocker mongo stop
 ```
 
 ### Available Services

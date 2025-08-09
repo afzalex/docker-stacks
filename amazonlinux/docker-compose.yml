@@ -17,8 +17,8 @@ services:
       # - ./.data:/root/python3.7.3-browser-template-1.0
       # - ./config:/home/ciuser/config
       # - ./.data:/home/ciuser/data
-      - /Users/mafzal/source/docker-stacks/amazonlinux/.data:/home/ciuser/data
-      - /Users/mafzal/source/docker-stacks/amazonlinux/config:/home/ciuser/config
+      - /Users/mafzal/source/fzdockers/amazonlinux/.data:/home/ciuser/data
+      - /Users/mafzal/source/fzdockers/amazonlinux/config:/home/ciuser/config
       - /var/run/docker.sock:/var/run/docker.sock
       - /Users/mafzal/source:/app/source
 
